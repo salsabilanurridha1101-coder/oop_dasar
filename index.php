@@ -1,29 +1,36 @@
 <?php
-require_once  "koneksi.php";
-require_once  "classes/mobil.php";
-require_once  "classes/motor.php";
+require_once "koneksi.php";
+require_once "classes/mobil.php";
+require_once "classes/motor.php";
 
-if(isset ($_POST['simpan'])){
-    $jenis =$_POST['jenis'];
+if (isset($_POST['Simpan'])) {
+    $jenis = $_POST['jenis'];
     $merk = $_POST['merk'];
     $warna = $_POST['warna'];
 
-    if($jenis === "Mobil"){
+    if ($jenis === "Mobil") {
         $jumlah_pintu = $_POST['jumlah_pintu'];
-        $mobil = new Mobil ($merk,$warna,$jumlah_pintu);
+        $mobil = new Mobil($merk, $warna, $jumlah_pintu);
         $merkMobil = $mobil->getMerk();
-        $warnaMobil = $mobil ->getWarna();
-        $jumlah_pintu = $mobil->getJumlahPintu();
-        $insert = mysqli_query($koneksi, "INSERT INTO kendaraan (jenis,merk,warna,jumlah_pintu) VALUES ('$jenis', '$merkMobil', '$warnaMobil', '$jumlah_pintu')");
+        $warnaMobil = $mobil->getWarna();
+        $jmlhPintu = $mobil->jmlhpintu();
+        $insert = mysqli_query($koneksi, "INSERT INTO kendaraan(jenis,merk,warna,jumlah_pintu) VALUES ('$jenis','$merkMobil','$$warnaMobil','$jmlhpintu')");
     } else {
-        $jenis_motor =$_POST['jenis_motor'];
-        $motor = new Motor ($$merk,$warna,$jenis_motor);
+        $jenis_motor = $_POST['jenis_motor'];
+        $motor = new motor($merk, $warna, $jenis_motor);
         $merkMotor = $motor->getMerk();
         $warnaMotor = $motor->getWarna();
-        $jenis_motor = $motor->getjenisMotor();
-        
+        $jenisMotor = $motor->getJenisMotor();
+
+        $insert = mysqli_query($koneksi, "INSERT INTO kendaraan(jenis,merk,warna,jenis_motor) VALUES ('$jenis','$merkMotor','$$warnaMotor','$jenisMotor')");
+    }
+    if ($insert) {
+        header("location:index.php");
+        # code...
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -38,33 +45,39 @@ if(isset ($_POST['simpan'])){
 <body>
     <h2>Input Kendaraan</h2>
     <form action="" method="post">
-        <label for="">Jenis</label><br>
-        <select name="jenis" onchange="cariJenis(this.value)">
-            <option value="">--Pilih Jenis--</option>
+        <label for="">Jenis:</label><br>
+        <select name="jenis" onchange="cariJenis(this.value)" required>
+            <option value="">Pilih Jenis</option>
             <option value="Mobil">Mobil</option>
             <option value="Motor">Motor</option>
-        </select><br><br>
-        <label>Merk: </label>
-        <input type="merk" required><br><br>
-        <label>Warna: </label>
-        <input type="warna" required><br><br>
-        <div id="mobilInput" style="display:none;">
-            <label>Jumlah Pintu: </label><br>
+        </select><br>
+        <label for="">Merk :</label><br>
+        <input type="text" name="merk" required><br><br>
+
+        <label for="">warna :</label><br>
+        <input type="text" name="warna" required><br><br>
+
+        <div id="mobilInput" style="display: none;">
+            <label for="">Jumlah Pintu :</label><br>
             <input type="text" name="jumlah_pintu"><br><br>
         </div>
-        <div id="motorInput" style="display:none">
-            <label>Jenis Motor: </label><br>
-            <input type="text" name="jenis_motor" ><br><br>
+
+        <div id="motorInput" style="display: none;">
+            <label for="">Jenis Motor :</label><br>
+            <input type="text" name="jenis_motor"><br><br>
         </div>
-        <button type="submit" name="simpan">simpan</button>
+
+        <button type="submit" name="Simpan">Simpan</button>
+
     </form>
     <script>
         function cariJenis(value) {
             document.querySelector('#mobilInput').style.display = value === "Mobil" ? 'block' : 'none';
-            document.querySelector('#motorInput').style.display = value === "Motor" ? 'block' : 'none';
 
+            document.querySelector('#motorInput').style.display = value === "Motor" ? 'block' : 'none';
         }
     </script>
+
 </body>
 
 </html>

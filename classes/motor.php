@@ -1,15 +1,18 @@
-<?php 
-class Motor extends kendaraan {
-    private $jumlahMotor;
-    public function __construct($merk, $warna, $jumlahMotor)
+<?php
+require_once "kendaraan.php";
+class Motor extends kendaraan
+{
+    private $jenisMotor;
+
+    public function __construct($merk, $warna, $jenisMotor)
     {
-        // $this->$merk = $merk;
-        // $this->$warna = $warna;
-        parent:: __construct($merk, $warna);
-        $this->jumlahMotor = $jumlahMotor;
+        $this->merk = $merk;
+        $this->warna = $warna;
+        $this->jenisMotor = $jenisMotor;
     }
-    public function getJumlahMotor(){
-        return $this->jumlahMotor;
+
+    public function getJenisMotor()
+    {
+        return $this->jenisMotor;
     }
 }
-?>
